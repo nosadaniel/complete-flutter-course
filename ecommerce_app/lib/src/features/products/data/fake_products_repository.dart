@@ -21,7 +21,8 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider((ref) => FakeProductsRepository());
+final productsRepositoryProvider =
+    Provider<FakeProductsRepository>((ref) => FakeProductsRepository());
 
 final productsListProvider = FutureProvider<List<Product>>((ref) {
   final repos = ref.watch(productsRepositoryProvider);

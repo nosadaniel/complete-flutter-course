@@ -1,7 +1,9 @@
+import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
 import 'package:ecommerce_app/src/features/products/presentation/product_screen/product_screen.dart';
 import 'package:ecommerce_app/src/routing/not_found_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/presentation/account/account_screen.dart';
@@ -23,10 +25,25 @@ enum NamedRouter {
   checkout,
 }
 
-class AppRouter {
-  static final goRouter = GoRouter(
+final appRouterProvider = Provider<GoRouter>((ref) {
+  final auth = ref.watch(authRepositoryProvider);
+  return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
+    redirect: (context, state) {
+      final isLoggedIn = auth.currentUser != null;
+      if (isLoggedIn) {
+        if (state.uri.path == '/${NamedRouter.sigIn.name}') {
+          return '/';
+        }
+      } else {
+        if (state.uri.path == '/${NamedRouter.account.name}' ||
+            state.uri.path == '/${NamedRouter.orders.name}') {
+          return '/';
+        }
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',
@@ -103,4 +120,4 @@ class AppRouter {
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
   );
-}
+});

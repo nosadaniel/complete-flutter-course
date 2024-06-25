@@ -1,7 +1,8 @@
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+ import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
 import 'package:ecommerce_app/src/features/products/presentation/product_screen/product_screen.dart';
 import 'package:ecommerce_app/src/routing/not_found_screen.dart';
+import 'package:ecommerce_app/src/utils/go_router_refreshStream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +31,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
-    redirect: (context, state) {
+    redirect: (_, state) {
       final isLoggedIn = auth.currentUser != null;
       if (isLoggedIn) {
         if (state.uri.path == '/${NamedRouter.sigIn.name}') {
@@ -44,6 +45,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
       return null;
     },
+    refreshListenable: GoRouterRefreshStream(auth.authStateChanges()),
+    errorBuilder: (context, state) => const NotFoundScreen(),
     routes: [
       GoRoute(
         path: '/',
@@ -118,6 +121,5 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
     ],
-    errorBuilder: (context, state) => const NotFoundScreen(),
   );
 });

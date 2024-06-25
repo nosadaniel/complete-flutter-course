@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension AsyncValueExceptionDialog on AsyncValue {
-  void showAlertDialog({required BuildContext context}) {
+  void showAlertDialogOnError({required BuildContext context}) {
     if (!isLoading && hasError) {
       showExceptionAlertDialog(
           context: context, title: 'Error'.hardcoded, exception: error);

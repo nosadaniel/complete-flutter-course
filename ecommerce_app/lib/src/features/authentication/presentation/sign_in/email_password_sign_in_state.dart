@@ -23,6 +23,22 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
   final EmailPasswordSignInFormType formType;
   final bool isLoading;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EmailPasswordSignInState &&
+          runtimeType == other.runtimeType &&
+          formType == other.formType &&
+          isLoading == other.isLoading;
+
+  @override
+  int get hashCode => formType.hashCode ^ isLoading.hashCode;
+
+  @override
+  String toString() {
+    return 'EmailPasswordSignInState{formType: $formType, isLoading: $isLoading}';
+  }
+
   EmailPasswordSignInState copyWith({
     EmailPasswordSignInFormType? formType,
     bool? isLoading,
@@ -31,25 +47,6 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
       formType: formType ?? this.formType,
       isLoading: isLoading ?? this.isLoading,
     );
-  }
-
-  @override
-  String toString() {
-    return 'EmailPasswordSignInState(formType: $formType, isLoading: $isLoading)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is EmailPasswordSignInState &&
-        other.formType == formType &&
-        other.isLoading == isLoading;
-  }
-
-  @override
-  int get hashCode {
-    return formType.hashCode ^ isLoading.hashCode;
   }
 }
 

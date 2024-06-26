@@ -1,22 +1,41 @@
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/product.dart';
 
 class FakeProductsRepository {
-  final _productsData = kTestProducts;
-
-  Future<List<Product>> fetchProducts() async {
-    await Future.delayed(const Duration(seconds: 2));
-    return Future.value(_productsData);
+  FakeProductsRepository({this.addDelay = true});
+  final bool addDelay;
+  List<Product> get _kProductsTestData {
+    return kTestProducts;
   }
 
-  Future<Product?> product({required String productId}) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<List<Product>> fetchProducts() async {
+    await DelayCall.addDelay(delay: addDelay);
+    return Future.value(_kProductsTestData);
+  }
+
+  Future<Product?> getProduct({required String productId}) async {
+    await DelayCall.addDelay(delay: addDelay);
+    return _getProduct(kTestProducts, productId);
+  }
+
+  Stream<List<Product>> watchProductList() async* {
+    await DelayCall.addDelay(delay: addDelay);
+    yield _kProductsTestData;
+  }
+
+  Stream<Product?> watchProduct({required String productId}) {
+    return watchProductList()
+        .map((products) => _getProduct(products, productId));
+  }
+
+  Product? _getProduct(List<Product> products, String id) {
     try {
-      return _productsData.firstWhere((product) => product.id == productId);
+      return products.firstWhere((product) => product.id == id);
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 }
@@ -32,5 +51,5 @@ final productsListProvider = FutureProvider<List<Product>>((ref) {
 final productProvider =
     FutureProvider.autoDispose.family<Product?, String>((ref, productId) {
   final repos = ref.watch(productsRepositoryProvider);
-  return repos.product(productId: productId);
+  return repos.getProduct(productId: productId);
 });

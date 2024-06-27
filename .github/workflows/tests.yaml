@@ -10,6 +10,6 @@ jobs:
       uses: subosito/flutter-action@v2.10.0
     - name: Run Flutter Test via Bash script
       run:  |
-          chmod +x flutter_tests.sh
-          /ecommerce_app/flutter_tests.sh
+          chmod +x ./ecommerce_app/flutter_tests.sh
+          ./ecommerce_app/flutter_tests.sh
    

@@ -1,5 +1,5 @@
 # Complete Flutter Course Bundle - eCommerce App
-<a href="https://github.com/nosadaniel/complete-flutter-course/actions/actions"><img src="https://github.com/nosadaniel/complete-flutter-course/actions/workflows/test-my-app/badge.svg" alt="Build Status"></a>
+<a href="https://github.com/nosadaniel/complete-flutter-course/actions"><img src="https://github.com/nosadaniel/complete-flutter-course/actions/workflows/tests.yaml/badge.svg" alt="Build Status"></a>
 
 This is my personal Flutter Project course from:
 

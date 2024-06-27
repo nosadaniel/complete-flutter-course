@@ -3,7 +3,7 @@
 # Save current directory
 CURRENT_DIR=$(pwd)
 
-echo"Current directory => "
+echo "Current directory =>"
 echo $CURRENT_DIR
 
 # Navigate to Flutter project

@@ -2,14 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/fake_auth_repository.dart';
 
-class AccountScreenController extends StateNotifier<AsyncValue> {
+class AccountScreenController extends StateNotifier<AsyncValue<void>> {
   AccountScreenController({required this.authRepository})
-      : super(const AsyncValue.data(null));
+      : super(const AsyncData(null));
   final FakeAuthRepository authRepository;
 
   /// return `true' when no error occurs
   Future<void> signOut() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
     state = await AsyncValue.guard(
       () async => authRepository.signOut(),
     );

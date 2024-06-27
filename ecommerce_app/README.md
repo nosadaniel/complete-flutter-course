@@ -1,6 +1,7 @@
 # Flutter eCommerce App
+<a href="https://github.com/nosadaniel/complete-flutter-course/tree/my_dev/ecommerce_app/actions"><img src="https://github.com/nosadaniel/complete-flutter-course/tree/my_dev/ecommerce_app/workflows/test-my-app/badge.svg" alt="Build Status"></a>
 
-This is the official Flutter Project for this course:
+This is my personal Flutter Project course from:
 
 - [Complete Flutter Course Bundle](https://codewithandrea.com/courses/complete-flutter-bundle/)
 

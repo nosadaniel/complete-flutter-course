@@ -4,6 +4,12 @@ jobs:
   drive:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: subosito/flutter-action@v2.10.0
-    - run: flutter test
+    - name: Flutter Checkout@v3
+      uses: actions/checkout@v3
+    - name: Use Flutter-action@v2.10.
+      uses: subosito/flutter-action@v2.10.0
+    - name: Run Flutter Test via Bash script
+      run:  |
+          chmod +x flutter_tests.sh
+          /ecommerce_app/flutter_tests.sh
+   

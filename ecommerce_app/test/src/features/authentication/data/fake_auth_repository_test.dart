@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
@@ -15,13 +14,17 @@ void main() {
   group('fake auth repository ...', () {
     test('currentUser is null', () {
       final authRepo = makeAuthRepo();
+      //register this upfront - will be called even if the test throw an exception later
+      addTearDown(authRepo.dispose);
       expect(authRepo.authStateChanges(), emits(null));
+      expect(authRepo.currentUser, null);
     });
 
     test('authStateChanges is not null after signIn ', () async {
       //setup
       final authRepo = makeAuthRepo();
-
+//register this upfront - will be called even if the test throw an exception later
+      addTearDown(authRepo.dispose);
       //run
       await authRepo.signInWithEmailAndPassword(
         testEmail,
@@ -34,7 +37,8 @@ void main() {
     test('authStateChanges is not null after registering ', () async {
       //setup
       final authRepo = makeAuthRepo();
-
+//register this upfront - will be called even if the test throw an exception later
+      addTearDown(authRepo.dispose);
       //run
       await authRepo.createUserWithEmailAndPassword(testEmail, testPassword);
 
@@ -55,6 +59,8 @@ void main() {
 
     test('currentUser is null after sign out ', () async {
       final authRepo = makeAuthRepo();
+      //register this upfront - will be called even if the test throw an exception later
+      addTearDown(authRepo.dispose);
       //signIn
       await authRepo.signInWithEmailAndPassword(testEmail, testPassword);
       //test

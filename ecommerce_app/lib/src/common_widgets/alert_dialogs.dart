@@ -28,7 +28,8 @@ Future<bool?> showAlertDialog({
               if (cancelActionText != null)
                 TextButton(
                   child: Text(cancelActionText),
-                  onPressed: () => context.pop(false),
+                  //context.pop fails during testing
+                  onPressed: () => Navigator.of(context).pop(false),
                 ),
               TextButton(
                 child: Text(defaultActionText),

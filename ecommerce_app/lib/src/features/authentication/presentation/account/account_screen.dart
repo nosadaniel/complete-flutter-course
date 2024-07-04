@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Simple account screen showing some user info and a logout button.
+const defaultAccountLogoutKey = Key("default-account-logout");
+
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({super.key});
 
@@ -24,6 +26,7 @@ class AccountScreen extends ConsumerWidget {
         title: Text('Account'.hardcoded),
         actions: [
           ActionTextButton(
+            key: defaultAccountLogoutKey,
             text: 'Logout'.hardcoded,
             onPressed: state.isLoading
                 ? null

@@ -1,9 +1,10 @@
 ///https://verygood.ventures/blog/robot-testing-in-flutter
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
+import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 
 import '../../common_widgets/alert_dialogs.dart';
 import 'domain/app_user.dart';
@@ -71,12 +72,29 @@ class AuthRobot {
     expect(dialogTitle, findsNothing);
   }
 
+  void expectCirculatorIndicator() {
+    final finder = find.byType(CircularProgressIndicator);
+    expect(finder, findsOneWidget);
+  }
+
   void studStreamAppUser(FakeAuthRepository auth) {
     when(
       () => auth.authStateChanges(),
     ).thenAnswer(
       (_) => Stream.value(
         const AppUser(uid: "123", email: "test@test.com"),
+      ),
+    );
+  }
+
+  void studSignOut(FakeAuthRepository auth) {
+    when(auth.signOut).thenAnswer(Future.value);
+  }
+
+  void studSignOutDelay(FakeAuthRepository auth) {
+    when(auth.signOut).thenAnswer(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
       ),
     );
   }

@@ -31,8 +31,9 @@ class FakeAuthRepository {
     }
   }
 
-  void signOut() {
+  Future<void> signOut() async {
     //throw Exception("connection failed");
+    await DelayCall.addDelay(delay: _delay);
     _authState.value = null;
   }
 
@@ -45,7 +46,7 @@ class FakeAuthRepository {
 }
 
 final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
-  final auth = FakeAuthRepository();
+  final auth = FakeAuthRepository(addDelay: true);
   ref.onDispose(() => auth.dispose());
   return auth;
 });

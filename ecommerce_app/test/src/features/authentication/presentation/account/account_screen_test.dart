@@ -1,5 +1,4 @@
 import 'package:ecommerce_app/src/features/authentication/auth_robot.dart';
-import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -25,7 +24,7 @@ void main() {
     final auth = MockFakeAuthRepository();
     //stud, in order return  fake user data
     robot.studStreamAppUser(auth);
-
+    robot.studSignOut(auth);
     await robot.pumpAccountScreen(authRepository: auth);
     //tap on logout button
     await robot.tapLogoutButton();
@@ -38,7 +37,6 @@ void main() {
   });
   testWidgets('Confirm logout, failure', (tester) async {
     final auth = MockFakeAuthRepository();
-    final exception = Exception('Connection Error');
     final robot = AuthRobot(tester);
 
     //stud, in order return  fake user data
@@ -56,5 +54,32 @@ void main() {
     await robot.tapLogoutDialog();
     //expect to show error dialog
     robot.expectLogoutError();
+  });
+
+  testWidgets('Confirm logout, loading state', (tester) async {
+    final auth = MockFakeAuthRepository();
+    final robot = AuthRobot(tester);
+
+    //stud, in order return  fake user data
+    robot.studStreamAppUser(auth);
+    // stud, to cause a delay before signing out
+    robot.studSignOutDelay(auth);
+
+    await tester.runAsync(() async {
+      // pump account screen
+      await robot.pumpAccountScreen(authRepository: auth);
+      //tap on logout button
+      await robot.tapLogoutButton();
+      //expect to show logout dialog
+      robot.expectLogoutDialogFound();
+      //tap on logout button dialog
+      await robot.tapLogoutDialog();
+    });
+
+    //expect to show circular progress indicator
+    robot.expectCirculatorIndicator();
+    verify(
+      () => auth.signOut(),
+    ).called(1);
   });
 }

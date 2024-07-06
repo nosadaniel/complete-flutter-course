@@ -1,4 +1,3 @@
-
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -68,7 +67,7 @@ void main() {
       expect(authRepo.authStateChanges(), emits(testUser));
 
       //signout
-      authRepo.signOut();
+      await authRepo.signOut();
       //test
       expect(authRepo.currentUser, null);
       expect(authRepo.authStateChanges(), emits(null));

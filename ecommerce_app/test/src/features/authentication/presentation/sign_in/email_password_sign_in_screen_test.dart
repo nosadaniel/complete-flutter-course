@@ -30,7 +30,14 @@ void main() {
         ),
       );
     });
-    testWidgets('callback test', (tester) async {
+   
+    testWidgets('''
+      Given formType is signIn
+      When enter valid email and password
+      And tap on the sign-in button
+      Then signInWithEmailAndPassword is called
+      And error alert is not called
+''', (tester) async {
       //flag to keep track if the callback was called
       var didSignIn = false;
       final r = AuthRobot(tester);

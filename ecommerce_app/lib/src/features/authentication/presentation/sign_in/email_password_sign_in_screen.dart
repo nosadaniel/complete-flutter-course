@@ -39,7 +39,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
 /// A widget for email & password authentication, supporting the following:
 /// - sign in
 /// - register (create an account)
-/// [onSignedIn] callback is used to pop the the current screen out if submit is successful
+/// [onSignedIn] calllback is called when sign in has succeeded
 class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   const EmailPasswordSignInContents({
     super.key,

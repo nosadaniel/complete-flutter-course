@@ -33,7 +33,7 @@ void main() {
     //tap on logout button dialog
     await robot.tapLogoutDialog();
     //expect to show error dialog
-    robot.expectLogoutErrorDialogNotFound();
+    robot.expectErrorAlertNotFound();
   });
   testWidgets('Confirm logout, failure', (tester) async {
     final auth = MockFakeAuthRepository();
@@ -53,7 +53,7 @@ void main() {
     //tap on logout button dialog
     await robot.tapLogoutDialog();
     //expect to show error dialog
-    robot.expectLogoutError();
+    robot.expectErrorAlert();
   });
 
   testWidgets('Confirm logout, loading state', (tester) async {

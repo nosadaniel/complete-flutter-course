@@ -1,4 +1,7 @@
 ///https://verygood.ventures/blog/robot-testing-in-flutter
+import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,6 +16,44 @@ import 'presentation/account/account_screen.dart';
 class AuthRobot {
   AuthRobot(this.tester);
   final WidgetTester tester;
+
+  Future<void> pumpEmailPasswordSignInContents(
+      {required auth,
+      required EmailPasswordSignInFormType formType,
+      VoidCallback? onSignedIn}) async {
+    await tester.pumpWidget(ProviderScope(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(auth),
+      ],
+      child: MaterialApp(
+        home: Scaffold(
+          body: EmailPasswordSignInContents(
+            formType: formType,
+            onSignedIn: onSignedIn,
+          ),
+        ),
+      ),
+    ));
+  }
+
+  Future<void> tapEmailAndPasswordSubmitButton() async {
+    final primaryBtn = find.byType(PrimaryButton);
+    expect(primaryBtn, findsOneWidget);
+    await tester.tap(primaryBtn);
+    await tester.pump();
+  }
+
+  Future<void> enterEmail(String email) async {
+    final emailField = find.byKey(EmailPasswordSignInScreen.emailKey);
+    expect(emailField, findsOneWidget);
+    await tester.enterText(emailField, email);
+  }
+
+  Future<void> enterPassword(String password) async {
+    final emailField = find.byKey(EmailPasswordSignInScreen.passwordKey);
+    expect(emailField, findsOneWidget);
+    await tester.enterText(emailField, password);
+  }
 
   Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {
     await tester.pumpWidget(
@@ -62,12 +103,12 @@ class AuthRobot {
     expect(dialogTitle, findsNothing);
   }
 
-  void expectLogoutError() {
+  void expectErrorAlert() {
     final dialogTitle = find.text('Error');
     expect(dialogTitle, findsOneWidget);
   }
 
-  void expectLogoutErrorDialogNotFound() {
+  void expectErrorAlertNotFound() {
     final dialogTitle = find.text('Error');
     expect(dialogTitle, findsNothing);
   }

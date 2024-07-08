@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/src/features/authentication/auth_robot.dart';
+import '../../auth_robot.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -31,7 +31,7 @@ void main() {
     //expect to show logout dialog
     robot.expectLogoutDialogFound();
     //tap on logout button dialog
-    await robot.tapLogoutDialog();
+    await robot.tapLogoutDialogButton();
     //expect to show error dialog
     robot.expectErrorAlertNotFound();
   });
@@ -51,7 +51,7 @@ void main() {
     //expect to show logout dialog
     robot.expectLogoutDialogFound();
     //tap on logout button dialog
-    await robot.tapLogoutDialog();
+    await robot.tapLogoutDialogButton();
     //expect to show error dialog
     robot.expectErrorAlert();
   });
@@ -73,7 +73,7 @@ void main() {
       //expect to show logout dialog
       robot.expectLogoutDialogFound();
       //tap on logout button dialog
-      await robot.tapLogoutDialog();
+      await robot.tapLogoutDialogButton();
     });
 
     //expect to show circular progress indicator

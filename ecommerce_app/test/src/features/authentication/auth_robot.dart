@@ -1,7 +1,10 @@
 ///https://verygood.ventures/blog/robot-testing-in-flutter
+import 'dart:math';
+
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,13 +12,20 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 
-import '../../common_widgets/alert_dialogs.dart';
-import 'domain/app_user.dart';
-import 'presentation/account/account_screen.dart';
+import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
+import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen.dart';
 
 class AuthRobot {
   AuthRobot(this.tester);
   final WidgetTester tester;
+
+  Future<void> openEmailPasswordSignInScreen() async {
+    final finder = find.byKey(MoreMenuButton.signInKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
 
   Future<void> pumpEmailPasswordSignInContents(
       {required auth,
@@ -40,7 +50,7 @@ class AuthRobot {
     final primaryBtn = find.byType(PrimaryButton);
     expect(primaryBtn, findsOneWidget);
     await tester.tap(primaryBtn);
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   Future<void> enterEmail(String email) async {
@@ -53,6 +63,19 @@ class AuthRobot {
     final emailField = find.byKey(EmailPasswordSignInScreen.passwordKey);
     expect(emailField, findsOneWidget);
     await tester.enterText(emailField, password);
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    await enterEmail('test@test.com');
+    await enterPassword('1234');
+    await tapEmailAndPasswordSubmitButton();
+  }
+
+  Future<void> openAccountScreen() async {
+    final finder = find.byKey(MoreMenuButton.accountKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
   }
 
   Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {
@@ -90,7 +113,7 @@ class AuthRobot {
     await tester.pump();
   }
 
-  Future<void> tapLogoutDialog() async {
+  Future<void> tapLogoutDialogButton() async {
     final logoutButton = find.byKey(defaultDialogKey);
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);

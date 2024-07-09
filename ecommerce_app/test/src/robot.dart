@@ -9,12 +9,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
 import 'features/authentication/auth_robot.dart';
+import 'goldens/golden_robot.dart';
 
 class Robot {
-  Robot(this.tester) : auth = AuthRobot(tester);
+  Robot(this.tester)
+      : auth = AuthRobot(tester),
+        goldenRobot = GoldenRobot(tester);
   final WidgetTester tester;
 
   final AuthRobot auth;
+  final GoldenRobot goldenRobot;
   Future<void> pumpMyApp() async {
     GoRouter.optionURLReflectsImperativeAPIs = true;
 

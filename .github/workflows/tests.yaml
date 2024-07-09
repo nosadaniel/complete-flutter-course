@@ -2,7 +2,7 @@ name: Test App
 on: [push, pull_request, workflow_dispatch]
 jobs:
   drive:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - name: Flutter Checkout@v3
       uses: actions/checkout@v3

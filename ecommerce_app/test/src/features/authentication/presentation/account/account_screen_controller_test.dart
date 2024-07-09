@@ -25,7 +25,7 @@ void main() {
     });
     test('SignOut is null', () async {
       //stub
-      when(mockAuthRepository.signOut).thenAnswer((_) => null);
+      when(mockAuthRepository.signOut).thenAnswer((_) async {});
       //run
       await controller.signOut();
 
@@ -38,7 +38,7 @@ void main() {
 
     test('SignOut success', () async {
       //stub
-      when(mockAuthRepository.signOut).thenAnswer((_) => null);
+      when(mockAuthRepository.signOut).thenAnswer((_) async {});
       //run
       await controller.signOut();
 

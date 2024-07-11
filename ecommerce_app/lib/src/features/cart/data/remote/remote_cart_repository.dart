@@ -11,7 +11,7 @@ abstract class RemoteCartRepository {
   Future<void> setCart(String uid, Cart cart);
 }
 
-final remoteCartRepositoryProvider = Provider((ref) {
+final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
   //todo: replace with "real" remote cart repository
   return FakeRemoteCartRepository();
 });

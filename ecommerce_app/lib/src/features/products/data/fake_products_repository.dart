@@ -12,17 +12,17 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProducts() async {
-    await DelayCall.addDelay(delay: addDelay);
+    await delay(addDelay);
     return Future.value(_kProductsTestData);
   }
 
   Future<Product?> getProduct({required String productId}) async {
-    await DelayCall.addDelay(delay: addDelay);
+    await delay(addDelay);
     return _getProduct(kTestProducts, productId);
   }
 
   Stream<List<Product>> watchProductList() async* {
-    await DelayCall.addDelay(delay: addDelay);
+    await delay(addDelay);
     yield _kProductsTestData;
   }
 

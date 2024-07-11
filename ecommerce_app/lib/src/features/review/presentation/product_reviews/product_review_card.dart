@@ -4,15 +4,16 @@ import 'package:ecommerce_app/src/features/review/domain/review.dart';
 import 'package:ecommerce_app/src/features/review/presentation/product_reviews/product_rating_bar.dart';
 import 'package:ecommerce_app/src/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Simple card widget to show a product review info (score, comment, date)
-class ProductReviewCard extends StatelessWidget {
+class ProductReviewCard extends ConsumerWidget {
   const ProductReviewCard(this.review, {super.key});
   final Review review;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // TODO: Inject date formatter
-    final dateFormatted = kDateFormatter.format(review.date);
+    final dateFormatted = ref.watch(dateformatterProvider).format(review.date);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),

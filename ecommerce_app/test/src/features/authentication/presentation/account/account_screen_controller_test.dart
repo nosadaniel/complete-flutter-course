@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../mock_fake_auth_repository.dart';
+import '../../../../../mocks.dart';
 
 void main() {
   late MockFakeAuthRepository mockAuthRepository;

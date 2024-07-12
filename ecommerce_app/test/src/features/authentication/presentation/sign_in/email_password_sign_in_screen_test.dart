@@ -3,7 +3,7 @@ import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/e
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../mock_fake_auth_repository.dart';
+import '../../../../../mocks.dart';
 
 void main() {
   const testEmail = 'test@test.com';

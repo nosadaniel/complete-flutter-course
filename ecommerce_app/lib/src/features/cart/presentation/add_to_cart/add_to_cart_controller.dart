@@ -5,41 +5,43 @@ import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddToCartController extends StateNotifier<void> {
+class AddToCartController extends StateNotifier<AsyncValue<void>> {
   AddToCartController(this.ref) : super(const AsyncData(null));
 
   final Ref ref;
 
   Future<void> addItem(ProductID productId) async {
+    state = const AsyncLoading();
     final cartService = ref.read(cartServiceProvider);
     final quantity = ref.read(itemQuantityControllerProvider);
-    final item = Item(productId: productId, quantity: quantity.value!);
-    state = const AsyncLoading<void>();
-    final value = await AsyncValue.guard(() => cartService.addItem(item));
-    if (!value.hasError) {
-      state = value;
+    final item = Item(productId: productId, quantity: quantity);
+
+    state = await AsyncValue.guard(() async => await cartService.addItem(item));
+
+    if (!state.hasError) {
       //reset quantity
       ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
     } else {
-      state = AsyncError(value.error!, StackTrace.current);
+      state = AsyncError(state.error!, StackTrace.current);
     }
   }
 }
 
 final addToCartControllerProvider =
-    StateNotifierProvider<AddToCartController, void>((ref) {
+    StateNotifierProvider.autoDispose<AddToCartController, AsyncValue<void>>(
+        (ref) {
   return AddToCartController(ref);
 });
 
-class ItemQuantityController extends StateNotifier<AsyncValue<int>> {
-  ItemQuantityController() : super(const AsyncData(1));
+class ItemQuantityController extends StateNotifier<int> {
+  ItemQuantityController() : super(1);
 
   void updateQuantity(int quantity) {
-    state = AsyncData(quantity);
+    state = quantity;
   }
 }
 
 final itemQuantityControllerProvider =
-    StateNotifierProvider<ItemQuantityController, AsyncValue<int>>((ref) {
+    StateNotifierProvider.autoDispose<ItemQuantityController, int>((ref) {
   return ItemQuantityController();
 });

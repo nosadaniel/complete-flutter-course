@@ -5,6 +5,7 @@ import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartService {
@@ -27,9 +28,9 @@ class CartService {
   Future<void> _setCart(Cart cart) async {
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
-      ref.read(remoteCartRepositoryProvider).setCart(user.uid, cart);
+      await ref.read(remoteCartRepositoryProvider).setCart(user.uid, cart);
     } else {
-      ref.read(localCartRepositoryProvider).setCart(cart);
+      await ref.read(localCartRepositoryProvider).setCart(cart);
     }
   }
 
@@ -42,7 +43,9 @@ class CartService {
 
   /// adds an items in the local or remote cart depending on the user auth state
   Future<void> addItem(Item item) async {
+    //throw Exception("connection issue");
     final cart = await _fetchCart();
+
     final updated = cart.addItem(item);
     await _setCart(updated);
   }

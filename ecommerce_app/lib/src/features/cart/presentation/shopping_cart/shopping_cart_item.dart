@@ -6,6 +6,7 @@ import 'package:ecommerce_app/src/common_widgets/item_quantity_selector.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/constants/async_value_widget.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
@@ -33,7 +34,6 @@ class ShoppingCartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read from data source
     final provideProvider = ref.watch(productProvider(item.productId));
     //todo implement shimmer for cart Item list
     return AsyncValueWidget<Product?>(
@@ -57,7 +57,7 @@ class ShoppingCartItem extends ConsumerWidget {
 }
 
 /// Shows a shopping cart item for a given product
-class ShoppingCartItemContents extends StatelessWidget {
+class ShoppingCartItemContents extends ConsumerWidget {
   const ShoppingCartItemContents({
     super.key,
     required this.product,
@@ -74,10 +74,10 @@ class ShoppingCartItemContents extends StatelessWidget {
   static Key deleteKey(int index) => Key('delete-$index');
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: error handling
-    // TODO: Inject formatter
+  Widget build(BuildContext context, WidgetRef ref) {
+    
     final priceFormatted = NumberFormat.simpleCurrency().format(product.price);
+    final state = ref.watch(shoppingCartScreenControllerProvider);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -102,17 +102,26 @@ class ShoppingCartItemContents extends StatelessWidget {
                       maxQuantity: min(product.availableQuantity, 10),
                       itemIndex: itemIndex,
                       // TODO: Implement onChanged
-                      onChanged: (value) {
-                        showNotImplementedAlertDialog(context: context);
-                      },
+                      onChanged: state.isLoading
+                          ? null
+                          : (value) {
+                              ref
+                                  .read(shoppingCartScreenControllerProvider
+                                      .notifier)
+                                  .updateItemQuantity(product.id, value);
+                            },
                     ),
                     IconButton(
                       key: deleteKey(itemIndex),
                       icon: Icon(Icons.delete, color: Colors.red[700]),
-                      // TODO: Implement onPressed
-                      onPressed: () {
-                        showNotImplementedAlertDialog(context: context);
-                      },
+                      onPressed: state.isLoading
+                          ? null
+                          : () {
+                              ref
+                                  .read(shoppingCartScreenControllerProvider
+                                      .notifier)
+                                  .removeItemById(product.id);
+                            },
                     ),
                     const Spacer(),
                   ],

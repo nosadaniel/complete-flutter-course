@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:ecommerce_app/src/common_widgets/item_quantity_selector.dart';
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
@@ -19,7 +20,8 @@ class AddToCartWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(addToCartControllerProvider,
         (_, state) => state.showAlertDialogOnError(context: context));
-    final int availableQuantity = product.availableQuantity;
+    final int availableQuantity =
+        ref.watch(itemAvailableQuantityProvider(product));
     final state = ref.watch(addToCartControllerProvider);
     final quantity = ref.watch(itemQuantityControllerProvider);
 
@@ -48,11 +50,11 @@ class AddToCartWidget extends ConsumerWidget {
         gapH8,
         PrimaryButton(
           isLoading: state.isLoading,
-          onPressed: availableQuantity < 0
-              ? null
-              : () => ref
+          onPressed: availableQuantity > 0
+              ? () => ref
                   .read(addToCartControllerProvider.notifier)
-                  .addItem(product.id),
+                  .addItem(product.id)
+              : null,
           text: availableQuantity > 0
               ? 'Add to Cart'.hardcoded
               : 'Out of Stock'.hardcoded,

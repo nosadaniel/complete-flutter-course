@@ -22,7 +22,7 @@ class ShoppingCartScreen extends ConsumerWidget {
     ref.listen(shoppingCartScreenControllerProvider,
         (_, state) => state.showAlertDialogOnError(context: context));
     final state = ref.watch(shoppingCartScreenControllerProvider);
-    final cartValue = ref.watch(cartProvider);
+    final cartValue = ref.watch(cartStreamProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Cart'.hardcoded),

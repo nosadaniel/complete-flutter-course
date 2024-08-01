@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:ecommerce_app/src/common_widgets/empty_placeholder_widget.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
@@ -7,6 +6,7 @@ import 'package:ecommerce_app/src/features/cart/presentation/cart_total/cart_tot
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common_widgets/decorated_box_with_shadow.dart';
 import '../../domain/item.dart';
 
 /// Responsive widget showing the cart items and the checkout button

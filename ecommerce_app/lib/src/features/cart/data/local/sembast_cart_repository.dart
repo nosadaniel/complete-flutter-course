@@ -51,7 +51,9 @@ class SembastCartRepository implements LocalCartRepository {
     final record = store.record(cartItemsKey);
     return record.onSnapshot(db).map((snapshot) {
       if (snapshot != null) {
-        return Cart.fromJson(snapshot.value as String);
+        final cart = Cart.fromJson(snapshot.value as String);
+        debugPrint("all stream of local cart => ${cart}");
+        return cart;
       } else {
         return const Cart();
       }

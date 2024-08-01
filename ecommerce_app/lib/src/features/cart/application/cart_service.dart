@@ -8,7 +8,6 @@ import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartService {
@@ -66,8 +65,9 @@ final cartServiceProvider = Provider<CartService>((ref) {
   return CartService(ref);
 });
 
-final cartProvider = StreamProvider<Cart>((ref) {
-  final user = ref.read(authRepositoryProvider).currentUser;
+final cartStreamProvider = StreamProvider<Cart>((ref) {
+  final user = ref.watch(authStateChangesProvider).value;
+  //debugPrint("currentUser changes => $user");
   if (user != null) {
     return ref.read(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {
@@ -77,12 +77,12 @@ final cartProvider = StreamProvider<Cart>((ref) {
 
 final cartItemsCountProvider = Provider<int>((ref) {
   return ref
-      .watch(cartProvider)
+      .watch(cartStreamProvider)
       .maybeMap(data: (cart) => cart.value.items.length, orElse: () => 0);
 });
 
 final cartTotalProvider = Provider.autoDispose<double>((ref) {
-  final itemsCart = ref.watch(cartProvider).value ?? const Cart();
+  final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
   final products = ref.watch(productListStreamProvider).value ?? [];
   return itemsCart.items.entries.map((item) {
     final product = products.firstWhere((product) => product.id == item.key);
@@ -92,7 +92,7 @@ final cartTotalProvider = Provider.autoDispose<double>((ref) {
 
 final itemAvailableQuantityProvider =
     Provider.autoDispose.family<int, Product>((ref, product) {
-  final cart = ref.watch(cartProvider).value;
+  final cart = ref.watch(cartStreamProvider).value;
   if (cart != null) {
     // get the current quantity for the given product in the cart
     final quantity = cart.items[product.id] ?? 0;

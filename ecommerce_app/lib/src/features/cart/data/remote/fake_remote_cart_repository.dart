@@ -3,6 +3,7 @@ import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_reposito
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import 'package:flutter/foundation.dart';
 
 class FakeRemoteCartRepository implements RemoteCartRepository {
   final bool addDelay;
@@ -28,6 +29,7 @@ class FakeRemoteCartRepository implements RemoteCartRepository {
     //first, get the current carts data for all users
     final carts = _carts.value;
     //then, set the cart for the given uid
+
     carts[uid] = cart;
     //finally, update the carts data (will emit a new value)
     _carts.value = carts;
@@ -35,6 +37,7 @@ class FakeRemoteCartRepository implements RemoteCartRepository {
 
   @override
   Stream<Cart> watchCart(String uid) {
+    debugPrint("remote watch called");
     return _carts.stream.map((data) => data[uid] ?? const Cart());
   }
 }

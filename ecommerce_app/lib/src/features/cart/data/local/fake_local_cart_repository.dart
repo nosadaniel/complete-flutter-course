@@ -20,6 +20,7 @@ class FakeLocalCartRepository implements LocalCartRepository {
   @override
   Future<void> setCart(Cart cart) async {
     await delay(addDelay);
+    _cart.value = cart;
   }
 
   @override

@@ -82,12 +82,21 @@ final cartItemsCountProvider = Provider<int>((ref) {
 });
 
 final cartTotalProvider = Provider.autoDispose<double>((ref) {
-  final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
-  final products = ref.watch(productListStreamProvider).value ?? [];
-  return itemsCart.items.entries.map((item) {
-    final product = products.firstWhere((product) => product.id == item.key);
-    return product.price * item.value;
-  }).reduce((value, itemPrice) => value + itemPrice);
+  try {
+    final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
+    final products = ref.watch(productListStreamProvider).value ?? [];
+    if (itemsCart.items.isNotEmpty) {
+      return itemsCart.items.entries.map((item) {
+        final Product product =
+            products.firstWhere((product) => product.id == item.key);
+        return product.price * item.value;
+      }).reduce((value, itemPrice) => value + itemPrice);
+    } else {
+      return 0.0;
+    }
+  } catch (e) {
+    rethrow;
+  }
 });
 
 final itemAvailableQuantityProvider =

@@ -116,6 +116,7 @@ void main() {
 
       //add item
       await addToCartController.addItem(productId);
+
       verifyInOrder(
         [
           // the loading state is set
@@ -131,6 +132,7 @@ void main() {
         ],
       );
       // on error, quantity doesn't change
+      // verify(() => itemQuantityListener(1, quantity));
       // then, no more interactions
       verifyNoMoreInteractions(addToCartListener);
       verifyNoMoreInteractions(itemQuantityListener);

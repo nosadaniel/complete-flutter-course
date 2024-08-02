@@ -72,8 +72,6 @@ class CartSyncService {
       final localQuantity = item.quantity;
       //get the quantity for the corresponding item in the remote cart
       final remoteQuantity = remoteCart.items[productId] ?? 0;
-      debugPrint(
-          "itemId $productId to be added to remote cart => ${products[1]}");
 
       final product = products.firstWhere((product) => product.id == productId);
       // Cap the quantity of each item to the available quantity

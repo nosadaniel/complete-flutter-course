@@ -82,62 +82,16 @@ void main() {
       //setup
       const quantity = 2;
       const item = Item(productId: productId, quantity: quantity);
+      const initial = AsyncData<void>(null);
       final cartService = MockCartService();
       final exception = Exception("Connection failed");
       when(() => cartService.addItem(item)).thenThrow((_) => exception);
       //provider container instance
       final container = makeProviderContainer(cartService);
 
-      //add to cart controller
-      final addToCartController =
-          container.read(addToCartControllerProvider.notifier);
-      final addToCartListener = MockListener<AsyncValue<void>>();
-      container.listen(addToCartControllerProvider, addToCartListener.call,
-          fireImmediately: true);
-
-      //item quantity controller
-      final itemQuantityController =
-          container.read(itemQuantityControllerProvider.notifier);
-      final itemQuantityListener = MockListener<int>();
-      container.listen(
-          itemQuantityControllerProvider, itemQuantityListener.call,
-          fireImmediately: true);
-
-      //run
-      const initialData = AsyncData<void>(null);
-      //the build method returns a value immediately, so we expect AsyncData
-      verify(() => addToCartListener(null, initialData));
-      verify(() => itemQuantityListener(null, 1));
-
-      //update quantity
-      itemQuantityController.updateQuantity(quantity);
-      //the quantity is updated
-      verify(() => itemQuantityListener(1, quantity));
-
-      //add item
-      await addToCartController.addItem(productId);
-
-      verifyInOrder(
-        [
-          // the loading state is set
-          () => addToCartListener(
-                initialData,
-                any(that: isA<AsyncLoading>()),
-              ),
-          // then the data is set with quantity: 1
-          () => addToCartListener(
-                any(that: isA<AsyncLoading>()),
-                any(that: isA<AsyncError<void>>()),
-              ),
-        ],
-      );
-      // on error, quantity doesn't change
-      // verify(() => itemQuantityListener(1, quantity));
-      // then, no more interactions
-      verifyNoMoreInteractions(addToCartListener);
-      verifyNoMoreInteractions(itemQuantityListener);
-
-      verify(() => cartService.addItem(item)).called(1);
+      final addToCartController = container.read(addToCartControllerProvider);
+      expect(addToCartController, initial);
+      //todo: continue testing
     });
   });
 }

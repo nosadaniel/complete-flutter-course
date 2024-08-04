@@ -85,7 +85,7 @@ final cartTotalProvider = Provider.autoDispose<double>((ref) {
   try {
     final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
     final products = ref.watch(productListStreamProvider).value ?? [];
-    if (itemsCart.items.isNotEmpty) {
+    if (itemsCart.items.isNotEmpty && products.isNotEmpty) {
       return itemsCart.items.entries.map((item) {
         final Product product =
             products.firstWhere((product) => product.id == item.key);

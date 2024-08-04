@@ -19,12 +19,13 @@ class CartSyncService {
   final Ref ref;
 
   void _init() {
-    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider, (prev, nxt) {
+    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
+        (prev, nxt) async {
       final prevUser = prev?.value;
       final user = nxt.value;
       if (prevUser == null && user != null) {
         debugPrint("syn local to remote cart");
-        _moveItemsToRemoteCart(user.uid);
+        await _moveItemsToRemoteCart(user.uid);
       }
     });
   }

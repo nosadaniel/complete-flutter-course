@@ -16,8 +16,7 @@ class FakeProductsRepository {
     return Future.value(_kProductsTestData);
   }
 
-  Future<Product?> getProduct({required String productId}) async {
-    await delay(addDelay);
+  Product? getProduct({required String productId}) {
     return _getProduct(kTestProducts, productId);
   }
 

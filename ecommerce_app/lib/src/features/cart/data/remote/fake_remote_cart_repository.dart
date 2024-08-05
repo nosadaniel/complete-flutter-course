@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
 import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 import 'package:flutter/foundation.dart';
@@ -39,5 +40,11 @@ class FakeRemoteCartRepository implements RemoteCartRepository {
   Stream<Cart> watchCart(String uid) {
     debugPrint("remote watch called");
     return _carts.stream.map((data) => data[uid] ?? const Cart());
+  }
+
+  @override
+  void clearCart(String uid) {
+    final carts = _carts.value;
+    carts[uid] = const Cart();
   }
 }

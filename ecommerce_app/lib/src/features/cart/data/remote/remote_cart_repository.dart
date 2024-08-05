@@ -9,9 +9,13 @@ abstract class RemoteCartRepository {
   Stream<Cart> watchCart(String uid);
 
   Future<void> setCart(String uid, Cart cart);
+
+  void clearCart(String uid);
 }
 
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
   //todo: replace with "real" remote cart repository
-  return FakeRemoteCartRepository(addDelay: true,);
+  return FakeRemoteCartRepository(
+    addDelay: true,
+  );
 });

@@ -38,13 +38,12 @@ class FakeRemoteCartRepository implements RemoteCartRepository {
 
   @override
   Stream<Cart> watchCart(String uid) {
-    debugPrint("remote watch called");
+   // debugPrint("remote watch called");
     return _carts.stream.map((data) => data[uid] ?? const Cart());
   }
 
   @override
-  void clearCart(String uid) {
-    final carts = _carts.value;
-    carts[uid] = const Cart();
+  Future<void> clearCart(String uid) async {
+    await setCart(uid, const Cart());
   }
 }

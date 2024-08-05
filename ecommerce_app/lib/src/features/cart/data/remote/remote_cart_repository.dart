@@ -10,7 +10,7 @@ abstract class RemoteCartRepository {
 
   Future<void> setCart(String uid, Cart cart);
 
-  void clearCart(String uid);
+  Future<void> clearCart(String uid);
 }
 
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {

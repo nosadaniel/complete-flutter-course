@@ -16,3 +16,9 @@ final userOrdersProvider = StreamProvider.autoDispose<List<Order>>((ref) {
     return const Stream.empty();
   }
 });
+
+final totalOrderCountProvider = Provider.autoDispose<int>((ref) {
+  return ref
+      .watch(userOrdersProvider)
+      .maybeMap(data: (data) => data.value.length, orElse: () => 0);
+});

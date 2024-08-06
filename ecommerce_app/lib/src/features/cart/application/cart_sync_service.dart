@@ -24,7 +24,6 @@ class CartSyncService {
       final prevUser = prev?.value;
       final user = nxt.value;
       if (prevUser == null && user != null) {
-        debugPrint("syn local to remote cart");
         await _moveItemsToRemoteCart(user.uid);
       }
     });
@@ -38,6 +37,8 @@ class CartSyncService {
       final localCartRepository = ref.read(localCartRepositoryProvider);
       final localCart = await localCartRepository.fetchCart();
       if (localCart.items.isNotEmpty) {
+        debugPrint("syn local to remote cart");
+
         //get the remote cart data
         final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
         //fetch

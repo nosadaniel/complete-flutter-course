@@ -5,7 +5,6 @@ import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.da
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// A fake checkout service that doesn't process real payments

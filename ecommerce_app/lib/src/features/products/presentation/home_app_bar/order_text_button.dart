@@ -19,7 +19,7 @@ class OrderTextButton extends ConsumerWidget {
       child: Stack(
         children: [
           TextButton(
-            onPressed: () => context.goNamed(NamedRouter.orders.name),
+            onPressed: () => context.goNamed(AppRouter.orders.name),
             child: Text('Orders'.hardcoded,
                 style: Theme.of(context)
                     .textTheme

@@ -23,8 +23,7 @@ class ShoppingCartIcon extends ConsumerWidget {
           child: IconButton(
             key: shoppingCartIconKey,
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () =>
-                GoRouter.of(context).goNamed(NamedRouter.cart.name),
+            onPressed: () => GoRouter.of(context).goNamed(AppRouter.cart.name),
           ),
         ),
         if (cartItemsCount > 0)

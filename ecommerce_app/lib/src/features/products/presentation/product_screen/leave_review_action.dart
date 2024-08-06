@@ -43,7 +43,7 @@ class LeaveReviewAction extends ConsumerWidget {
                   .bodyLarge!
                   .copyWith(color: Colors.green[700]),
               onPressed: () => context.goNamed(
-                NamedRouter.leaveReview.name,
+                AppRouter.leaveReview.name,
                 pathParameters: {"id": productId},
               ),
             ),

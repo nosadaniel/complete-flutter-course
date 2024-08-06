@@ -34,8 +34,19 @@ void main() {
     // check cart again (to verify cart synchronization )
     await r.cart.openCart();
     r.cart.expectFindNCartItems(1);
+    await r.checkout.startCheckout();
+    r.checkout.expectPayButtonFound();
+    await r.checkout.startPayment();
+    //when payment is complemented the user is
+    // taken to the orders page
+    r.orders.expectFindNOrders(1);
     await r.closePage();
-    //sign out
+    //close orders page
+    //check that cart is now empty
+    await r.cart.openCart();
+    r.cart.expectShoppingCartIsEmpty();
+    await r.closePage();
+    //sign out steps
     await r.openPopupMenu();
     await r.auth.openAccountScreen();
     await r.auth.tapLogoutButton();

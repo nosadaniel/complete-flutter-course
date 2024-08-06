@@ -23,10 +23,23 @@ class PaymentPage extends ConsumerWidget {
       //been fullfilled because all the items have been removed from the cart.
       // so we should go to the orders page
       if (cartTotal == 0.0) {
-        context.goNamed(NamedRouter.orders.name);
+        context.goNamed(AppRouter.orders.name);
       }
     });
     final cart = ref.watch(cartStreamProvider);
+    // return cart.when(
+    //     data: (cart) => ShoppingCartItemsBuilder(
+    //           items: cart.toItemsList(),
+    //           itemBuilder: (_, item, index) => ShoppingCartItem(
+    //             item: item,
+    //             itemIndex: index,
+    //             isEditable: false,
+    //           ),
+    //           ctaBuilder: (_) => const PaymentButton(),
+    //         ),
+    //     error: (err, s) => const Center(child: Text("error")),
+    //     loading: () => //todo: replace with shimmer ui
+    //         const CircularProgressIndicator());
     return AsyncValueWidget(
       value: cart,
       data: (cart) => ShoppingCartItemsBuilder(

@@ -60,9 +60,9 @@ class AuthRobot {
   }
 
   Future<void> enterPassword(String password) async {
-    final emailField = find.byKey(EmailPasswordSignInScreen.passwordKey);
-    expect(emailField, findsOneWidget);
-    await tester.enterText(emailField, password);
+    final passwordField = find.byKey(EmailPasswordSignInScreen.passwordKey);
+    expect(passwordField, findsOneWidget);
+    await tester.enterText(passwordField, password);
   }
 
   Future<void> signInWithEmailAndPassword() async {
@@ -97,6 +97,13 @@ class AuthRobot {
     await tester.tap(logoutButton);
     //execute ui
     await tester.pump();
+  }
+
+  void expectEmailAndPasswordFieldsFound() {
+    final emailField = find.byKey(EmailPasswordSignInScreen.emailKey);
+    expect(emailField, findsOneWidget);
+    final passwordField = find.byKey(EmailPasswordSignInScreen.passwordKey);
+    expect(passwordField, findsOneWidget);
   }
 
   void expectLogoutDialogFound() {

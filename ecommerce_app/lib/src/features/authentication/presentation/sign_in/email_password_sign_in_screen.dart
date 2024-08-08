@@ -15,8 +15,8 @@ import 'package:go_router/go_router.dart';
 /// Email & password sign in screen.
 /// Wraps the [EmailPasswordSignInContents] widget below with a [Scaffold] and
 /// [AppBar] with a title.
-/// 
-class EmailPasswordSignInScreen extends StatelessWidget {
+///
+class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({super.key, required this.formType});
   final EmailPasswordSignInFormType formType;
 
@@ -25,9 +25,10 @@ class EmailPasswordSignInScreen extends StatelessWidget {
   static const passwordKey = Key('password');
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(emailPasswordSignInControllerProvider(formType));
     return Scaffold(
-      appBar: AppBar(title: Text('Sign In'.hardcoded)),
+      appBar: AppBar(title: Text(state.titleText)),
       body: EmailPasswordSignInContents(
         formType: formType,
         onSignedIn: () => context.pop(),
@@ -88,6 +89,7 @@ class _EmailPasswordSignInContentsState
       final controller = ref.read(
           emailPasswordSignInControllerProvider(widget.formType).notifier);
       final success = await controller.submit(email: email, password: password);
+      //auto redirect to homepage on success
       if (success) {
         widget.onSignedIn?.call();
       }

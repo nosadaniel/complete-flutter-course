@@ -27,6 +27,13 @@ class AuthRobot {
     await tester.pumpAndSettle();
   }
 
+  Future<void> toggleToRegisterAccount() async {
+    final finder = find.text("Need an account? Register");
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
   Future<void> pumpEmailPasswordSignInContents(
       {required auth,
       required EmailPasswordSignInFormType formType,
@@ -67,7 +74,7 @@ class AuthRobot {
 
   Future<void> signInWithEmailAndPassword() async {
     await enterEmail('test@test.com');
-    await enterPassword('1234');
+    await enterPassword('test1234');
     await tapEmailAndPasswordSubmitButton();
   }
 

@@ -32,6 +32,8 @@ void main() {
       await r.auth.openEmailPasswordSignInScreen();
       //check that we move to sign screen
       r.auth.expectEmailAndPasswordFieldsFound();
+      //toggle to registration
+      await r.auth.toggleToRegisterAccount();
       //sign in
       await r.auth.signInWithEmailAndPassword();
       //goes back to home screen

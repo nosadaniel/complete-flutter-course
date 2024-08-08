@@ -3,7 +3,7 @@ import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/features/checkout/application/fake_checkout_service.dart';
-import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
+
 import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../mocks.dart';
 
 void main() {
-  const testUser = AppUser(uid: 'abc');
+  const testUser = AppUser(uid: 'abc', email: "test@ee.com");
 
   late MockFakeAuthRepository authRepository;
   late MockRemoteCartRepository remoteCartRepository;

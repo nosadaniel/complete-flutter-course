@@ -4,12 +4,13 @@ import '../robot.dart';
 
 void main() {
   // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  testWidgets('Sign in and sign out flow', (tester) async {
+  testWidgets('Register and sign out flow', (tester) async {
     final r = Robot(tester);
     await r.pumpMyApp();
     r.products.expectFindAllProductCards();
     await r.openPopupMenu();
     await r.auth.openEmailPasswordSignInScreen();
+    await r.auth.toggleToRegisterAccount();
     await r.auth.signInWithEmailAndPassword();
     r.products.expectFindAllProductCards();
     await r.openPopupMenu();
@@ -19,5 +20,3 @@ void main() {
     r.products.expectFindAllProductCards();
   });
 }
-
-

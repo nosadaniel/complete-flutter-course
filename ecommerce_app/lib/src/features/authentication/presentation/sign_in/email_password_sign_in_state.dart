@@ -68,6 +68,12 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
     }
   }
 
+  String get signTitle {
+    return formType == EmailPasswordSignInFormType.signIn
+        ? "Sign in".hardcoded
+        : "Register".hardcoded;
+  }
+
   String get secondaryButtonText {
     if (formType == EmailPasswordSignInFormType.register) {
       return 'Have an account? Sign in'.hardcoded;
@@ -92,7 +98,7 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
     }
   }
 
-  String get title {
+  String get titleText {
     if (formType == EmailPasswordSignInFormType.register) {
       return 'Register'.hardcoded;
     } else {

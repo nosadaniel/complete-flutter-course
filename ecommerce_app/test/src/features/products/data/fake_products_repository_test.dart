@@ -13,12 +13,12 @@ void main() {
 
     test("getProduct return first item", () async {
       final productsRepo = makeProductsRepository();
-      expect(await productsRepo.getProduct(productId: "1"), kTestProducts[0]);
+      expect(productsRepo.getProduct(productId: "1"), kTestProducts[0]);
     });
 
     test('getProduct(100) return null', () async {
       final productsRepo = makeProductsRepository();
-      expect(await productsRepo.getProduct(productId: "100"), null);
+      expect(productsRepo.getProduct(productId: "100"), null);
     });
 
     test('watchProductList return global list of product', () {

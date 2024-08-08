@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/exceptions/error_logger.dart';
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
@@ -53,9 +54,8 @@ class CartSyncService {
         //remove all items from the local cart
         await localCartRepository.setCart(const Cart());
       }
-    } catch (e) {
-      //TODO: handle error and/or rethrow
-      debugPrint("error while syncing => $e");
+    } catch (e, st) {
+      ref.read(errorLoggerProvider).logError(e, st);
     }
   }
 

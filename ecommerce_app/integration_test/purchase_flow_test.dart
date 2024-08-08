@@ -27,6 +27,8 @@ void main() {
     await r.openPopupMenu();
     // open signIn screen
     await r.auth.openEmailPasswordSignInScreen();
+    // toggle to create account
+    await r.auth.toggleToRegisterAccount();
     // sigin with email and password
     await r.auth.signInWithEmailAndPassword();
     //expect to be returned to home

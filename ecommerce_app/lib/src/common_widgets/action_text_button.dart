@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/src/common_widgets/items_count_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 

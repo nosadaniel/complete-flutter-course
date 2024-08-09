@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
-import '../../../review/presentation/product_reviews/product_reviews_list.dart';
+import '../../../reviews/presentation/product_reviews/product_reviews_list.dart';
 import '../home_app_bar/home_app_bar.dart';
 
 /// Shows the product page for a given product ID.
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key, required this.productId});
-  final String productId;
+  final ProductID productId;
 
   @override
   Widget build(BuildContext context) {

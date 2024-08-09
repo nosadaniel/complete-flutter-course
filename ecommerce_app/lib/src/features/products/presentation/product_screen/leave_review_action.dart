@@ -1,7 +1,10 @@
 import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
-import 'package:ecommerce_app/src/features/orders/domain/purchase.dart';
+import 'package:ecommerce_app/src/features/orders/application/user_orders_provider.dart';
+import 'package:ecommerce_app/src/features/orders/domain/order.dart';
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
+
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
 import 'package:ecommerce_app/src/utils/date_formatter.dart';
@@ -13,16 +16,15 @@ import 'package:go_router/go_router.dart';
 /// leave a review.
 class LeaveReviewAction extends ConsumerWidget {
   const LeaveReviewAction({super.key, required this.productId});
-  final String productId;
+  final ProductID productId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read from data source
-    final purchase = Purchase(orderId: 'abc', orderDate: DateTime.now());
-    if (purchase != null) {
-      // TODO: Inject date formatter
+    // todo: read data from source
+    final orders = ref.watch(matchingUserOrdersProvider(productId)).value;
+    if (orders != null && orders.isNotEmpty) {
       final dateFormatted =
-          ref.watch(dateformatterProvider).format(purchase.orderDate);
+          ref.watch(dateformatterProvider).format(orders.first.orderDate);
       return Column(
         children: [
           const Divider(),
@@ -52,7 +54,7 @@ class LeaveReviewAction extends ConsumerWidget {
         ],
       );
     } else {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
   }
 }

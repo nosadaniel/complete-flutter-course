@@ -1,13 +1,15 @@
 import 'package:ecommerce_app/src/app.dart';
-import 'package:ecommerce_app/src/constants/test_products.dart';
+
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/fake_local_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/more_menu_button.dart';
+import 'package:ecommerce_app/src/features/reviews/data/fake_reviews_repository.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,6 +20,7 @@ import 'features/cart/cart_robot.dart';
 import 'features/checkout/checkout_robot.dart';
 import 'features/orders/orders_robot.dart';
 import 'features/products/products_robot.dart';
+import 'features/reviews/reviews_robot.dart';
 import 'goldens/golden_robot.dart';
 
 class Robot {
@@ -29,6 +32,7 @@ class Robot {
         checkout = CheckoutRobot(
           tester,
         ),
+        reviewsRobot = ReviewsRobot(tester),
         goldenRobot = GoldenRobot(tester);
   final WidgetTester tester;
 
@@ -37,6 +41,7 @@ class Robot {
   final CartRobot cart;
   final CheckoutRobot checkout;
   final OrdersRobot orders;
+  final ReviewsRobot reviewsRobot;
   final GoldenRobot goldenRobot;
 
   Future<void> pumpMyApp() async {
@@ -47,6 +52,8 @@ class Robot {
     final productsRepo = FakeProductsRepository(addDelay: false);
     final localCartRepository = FakeLocalCartRepository(addDelay: false);
     final remoteCartRepository = FakeRemoteCartRepository(addDelay: false);
+    final reviewRespository = FakeReviewsRepository(addDelay: false);
+    final orderRespository = FakeOrdersRepository(addDelay: false);
 
     // * Create ProviderContainer with any required overrides
     final container = ProviderContainer(
@@ -55,6 +62,8 @@ class Robot {
         authRepositoryProvider.overrideWithValue(authRepo),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         remoteCartRepositoryProvider.overrideWithValue(remoteCartRepository),
+        reviewsRepositoryProvider.overrideWithValue(reviewRespository),
+        ordersRepostoryProvider.overrideWithValue(orderRespository)
       ],
     );
     container.read(cartSyncServiceProvider);

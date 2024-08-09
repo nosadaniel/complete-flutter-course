@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 
 /// Order status
@@ -35,7 +36,7 @@ class Order {
   final String userId;
 
   /// List of items in that order
-  final Map<String, int> items;
+  final Map<ProductID, int> items;
   final OrderStatus orderStatus;
   final DateTime orderDate;
   final double total;

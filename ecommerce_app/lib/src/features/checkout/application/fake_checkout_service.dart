@@ -5,13 +5,15 @@ import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.da
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/utils/current_date_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// A fake checkout service that doesn't process real payments
 class FakeCheckoutService {
-  FakeCheckoutService(this.ref, this.orderDate);
+  FakeCheckoutService(
+    this.ref,
+  );
   final Ref ref;
-  final DateTime orderDate;
 
   ///Temporary client-side logic for placing an order.
   ///part of this logic should run on the server so that we can:
@@ -22,6 +24,7 @@ class FakeCheckoutService {
     final authRepository = ref.read(authRepositoryProvider);
     final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
     final ordersRepository = ref.read(ordersRepostoryProvider);
+    final currentDateBuilder = ref.read(currentDateProvider);
     // * Assertion operator is ok here since this method
     // is ok here since this method is only called from
     // a place where the user is signed in
@@ -29,6 +32,7 @@ class FakeCheckoutService {
     //1. Get the cart object
     final cart = await remoteCartRepository.fetchCart(uid);
     final total = _totalPrice(cart);
+    final orderDate = currentDateBuilder();
     //order should be generated with UUID package
     // Since this is a fake service, we just derive it
     //from the date.
@@ -64,5 +68,5 @@ class FakeCheckoutService {
 }
 
 final checkoutServiceProvider = Provider<FakeCheckoutService>((ref) {
-  return FakeCheckoutService(ref, DateTime.now());
+  return FakeCheckoutService(ref);
 });

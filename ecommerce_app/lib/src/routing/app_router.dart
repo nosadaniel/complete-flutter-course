@@ -13,7 +13,7 @@ import '../features/authentication/presentation/sign_in/email_password_sign_in_s
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
 import '../features/orders/presentation/orders_list/orders_list_screen.dart';
 import '../features/products/presentation/products_list/products_list_screen.dart';
-import '../features/review/presentation/leave_review_page/leave_review_screen.dart';
+import '../features/reviews/presentation/leave_review_page/leave_review_screen.dart';
 
 enum AppRouter {
   home,

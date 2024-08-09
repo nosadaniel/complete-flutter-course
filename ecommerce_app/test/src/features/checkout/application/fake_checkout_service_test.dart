@@ -6,6 +6,7 @@ import 'package:ecommerce_app/src/features/checkout/application/fake_checkout_se
 
 import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
+import 'package:ecommerce_app/src/utils/current_date_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,7 +15,7 @@ import '../../../../mocks.dart';
 
 void main() {
   const testUser = AppUser(uid: 'abc', email: "test@ee.com");
-
+  final testDate = DateTime(2024, 8, 5);
   late MockFakeAuthRepository authRepository;
   late MockRemoteCartRepository remoteCartRepository;
   late MockOrdersRespository ordersRespository;
@@ -26,7 +27,7 @@ void main() {
         userId: testUser.uid,
         items: {'1': 1},
         orderStatus: OrderStatus.confirmed,
-        orderDate: DateTime(2024, 8, 5),
+        orderDate: testDate,
         total: 15));
     // needed for MockRemoteCartRepository
     registerFallbackValue(const Cart());
@@ -44,6 +45,7 @@ void main() {
         authRepositoryProvider.overrideWithValue(authRepository),
         remoteCartRepositoryProvider.overrideWithValue(remoteCartRepository),
         ordersRepostoryProvider.overrideWithValue(ordersRespository),
+        currentDateProvider.overrideWithValue(() => testDate),
       ],
     );
     addTearDown(container.dispose);
@@ -70,7 +72,7 @@ void main() {
       expect(checkoutService.placeOrder(), throwsA(isA<TypeError>()));
     });
 
-    test('non-empty cart, creates order', () async {
+    test('non-empty cart, creates order and purchase empties cart', () async {
       //setup
       when(() => authRepository.currentUser).thenReturn(testUser);
       when(() => remoteCartRepository.fetchCart(testUser.uid))

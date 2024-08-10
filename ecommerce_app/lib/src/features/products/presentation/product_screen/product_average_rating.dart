@@ -9,27 +9,30 @@ class ProductAverageRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ),
-        gapW8,
-        Text(
-          product.avgRating.toStringAsFixed(1),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        gapW8,
-        Expanded(
-          child: Text(
-            product.numRatings == 1
-                ? '1 rating'
-                : '${product.numRatings} ratings',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      ],
-    );
+    // Only show average if there is at least one rating
+    return product.numRatings <= 0
+        ? const SizedBox.shrink()
+        : Row(
+            children: [
+              const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              gapW8,
+              Text(
+                product.avgRating.toStringAsFixed(1),
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              gapW8,
+              Expanded(
+                child: Text(
+                  product.numRatings == 1
+                      ? '1 rating'
+                      : '${product.numRatings} ratings',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ],
+          );
   }
 }

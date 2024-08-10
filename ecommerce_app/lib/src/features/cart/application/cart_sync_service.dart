@@ -21,11 +21,11 @@ class CartSyncService {
 
   void _init() {
     ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
-        (prev, nxt) async {
+        (prev, nxt) {
       final prevUser = prev?.value;
       final user = nxt.value;
       if (prevUser == null && user != null) {
-        await _moveItemsToRemoteCart(user.uid);
+        _moveItemsToRemoteCart(user.uid);
       }
     });
   }

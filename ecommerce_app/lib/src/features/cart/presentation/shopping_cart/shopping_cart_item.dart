@@ -33,7 +33,7 @@ class ShoppingCartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provideProvider = ref.watch(productProvider(item.productId));
+    final provideProvider = ref.watch(productFutureProvider(item.productId));
     //todo implement shimmer for cart Item list
     return AsyncValueWidget<Product?>(
       value: provideProvider,
@@ -74,7 +74,6 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
     final priceFormatted = NumberFormat.simpleCurrency().format(product.price);
     final state = ref.watch(shoppingCartScreenControllerProvider);
     return ResponsiveTwoColumnLayout(

@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/data/fake_reviews_repository.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
@@ -21,6 +22,30 @@ class ReviewsService {
     await ref
         .read(reviewsRepositoryProvider)
         .setReview(productId: productId, uid: user.uid, review: review);
+    // * Note this should be done on the backend
+    // * At this stage the review is already submitted
+    // * and we don't need to await for the product rating to also be updated
+    _updateProductRating(productId);
+  }
+
+  Future<void> _updateProductRating(ProductID productId) async {
+    final reviews =
+        await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
+    final avgRating = _avgReviewScore(reviews);
+
+    await ref.read(productsRepositoryProvider).updateProductRating(
+        productId: productId, avgRating: avgRating, numRatings: reviews.length);
+  }
+
+  double _avgReviewScore(List<Review> reviews) {
+    if (reviews.isNotEmpty) {
+      return reviews.map((review) => review.rating).reduce(
+                (value, element) => value + element,
+              ) /
+          reviews.length;
+    } else {
+      return 0.0;
+    }
   }
 }
 
@@ -53,4 +78,3 @@ final userReviewStreamProvider =
     return Stream.value(null);
   }
 });
-

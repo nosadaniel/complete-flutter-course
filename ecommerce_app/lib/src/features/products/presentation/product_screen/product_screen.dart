@@ -27,7 +27,7 @@ class ProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Consumer(builder: (context, ref, _) {
-        final product = ref.watch(productProvider(productId));
+        final product = ref.watch(productStreamProvider(productId));
         //todo implement shimmer for product
         return AsyncValueWidget(
           value: product,
@@ -81,11 +81,8 @@ class ProductDetails extends ConsumerWidget {
                   style: Theme.of(context).textTheme.titleLarge),
               gapH8,
               Text(product.description),
-              // Only show average if there is at least one rating
-              if (product.numRatings >= 1) ...[
-                gapH8,
-                ProductAverageRating(product: product),
-              ],
+              gapH8,
+              ProductAverageRating(product: product),
               gapH8,
               const Divider(),
               gapH8,

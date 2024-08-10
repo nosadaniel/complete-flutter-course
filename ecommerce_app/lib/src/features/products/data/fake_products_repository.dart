@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,7 @@ class FakeProductsRepository {
     return Future.value(_products.value);
   }
 
-    Stream<List<Product>> watchProductList() {
+  Stream<List<Product>> watchProductList() {
     return _products.stream;
   }
 
@@ -48,6 +49,24 @@ class FakeProductsRepository {
     }
   }
 
+  ///update product rating
+  Future<void> updateProductRating(
+      {required ProductID productId,
+      required double avgRating,
+      required int numRatings}) async {
+    await delay(addDelay);
+    final products = _products.value;
+    final index = products.indexWhere((item) => item.id == productId);
+    if (index == -1) {
+      throw StateError('Product not found with id: $productId.'.hardcoded);
+    }
+    products[index] = products[index].copyWith(
+      avgRating: avgRating,
+      numRatings: numRatings,
+    );
+    _products.value = products;
+  }
+
   static Product? _getProduct(List<Product> products, String id) {
     try {
       return products.firstWhere((product) => product.id == id);
@@ -60,16 +79,21 @@ class FakeProductsRepository {
 final productsRepositoryProvider = Provider<FakeProductsRepository>(
     (ref) => FakeProductsRepository(addDelay: false));
 
-final productsListProvider = FutureProvider<List<Product>>((ref) {
+final productsListFutureProvider = FutureProvider<List<Product>>((ref) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.fetchProducts();
 });
-final productListStreamProvider = StreamProvider<List<Product>>((ref) {
+final productsListStreamProvider = StreamProvider<List<Product>>((ref) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.watchProductList();
 });
-final productProvider =
+final productFutureProvider =
     FutureProvider.autoDispose.family<Product?, String>((ref, productId) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.getProduct(productId: productId);
+});
+final productStreamProvider =
+    StreamProvider.autoDispose.family<Product?, String>((ref, productId) {
+  final repos = ref.watch(productsRepositoryProvider);
+  return repos.watchProduct(productId: productId);
 });

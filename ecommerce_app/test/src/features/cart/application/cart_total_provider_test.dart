@@ -12,7 +12,7 @@ void main() {
         {required Stream<Cart> cart, required Stream<List<Product>> products}) {
       final container = ProviderContainer(overrides: [
         cartStreamProvider.overrideWith((ref) => cart),
-        productListStreamProvider.overrideWith((ref) => products)
+        productsListStreamProvider.overrideWith((ref) => products)
       ]);
       addTearDown(container.dispose);
       return container;
@@ -32,7 +32,7 @@ void main() {
         cart: Stream.value(const Cart({'1': 1})),
         products: Stream.value(kTestProducts),
       );
-      await container.read(productListStreamProvider.future);
+      await container.read(productsListStreamProvider.future);
       await container.read(cartStreamProvider.future);
       final total = container.read(cartTotalProvider);
       expect(total, 15);
@@ -43,7 +43,7 @@ void main() {
         cart: Stream.value(const Cart({'1': 2})),
         products: Stream.value(kTestProducts),
       );
-      await container.read(productListStreamProvider.future);
+      await container.read(productsListStreamProvider.future);
       await container.read(cartStreamProvider.future);
       final total = container.read(cartTotalProvider);
       expect(total, 30);
@@ -54,7 +54,7 @@ void main() {
         cart: Stream.value(const Cart({'1': 2, '2': 2})),
         products: Stream.value(kTestProducts),
       );
-      await container.read(productListStreamProvider.future);
+      await container.read(productsListStreamProvider.future);
       await container.read(cartStreamProvider.future);
       final total = container.read(cartTotalProvider);
       expect(total, 56); // 2 * 15 + 2 * 13
@@ -65,7 +65,7 @@ void main() {
         cart: Stream.value(const Cart({'100': 2})),
         products: Stream.value(kTestProducts),
       );
-      await container.read(productListStreamProvider.future);
+      await container.read(productsListStreamProvider.future);
       await container.read(cartStreamProvider.future);
       expect(() => container.read(cartTotalProvider), throwsStateError);
     });
@@ -75,7 +75,7 @@ void main() {
         cart: Stream.value(const Cart()),
         products: Stream.value(kTestProducts),
       );
-      await container.read(productListStreamProvider.future);
+      await container.read(productsListStreamProvider.future);
       await container.read(cartStreamProvider.future);
       final total = container.read(cartTotalProvider);
       expect(total, 0);

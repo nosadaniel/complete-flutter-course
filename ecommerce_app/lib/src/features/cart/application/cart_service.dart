@@ -65,8 +65,6 @@ final cartServiceProvider = Provider<CartService>((ref) {
   return CartService(ref);
 });
 
-
-
 final cartStreamProvider = StreamProvider<Cart>((ref) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
@@ -85,7 +83,7 @@ final cartItemsCountProvider = Provider<int>((ref) {
 final cartTotalProvider = Provider.autoDispose<double>((ref) {
   try {
     final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
-    final products = ref.watch(productListStreamProvider).value ?? [];
+    final products = ref.watch(productsListStreamProvider).value ?? [];
     if (itemsCart.items.isNotEmpty && products.isNotEmpty) {
       return itemsCart.items.entries.map((item) {
         final Product product =

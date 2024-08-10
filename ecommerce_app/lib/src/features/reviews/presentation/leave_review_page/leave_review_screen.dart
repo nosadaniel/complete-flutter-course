@@ -118,7 +118,6 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
         gapH32,
         PrimaryButton(
           text: 'Submit'.hardcoded,
-          // TODO: Loading state
           isLoading: state.isLoading,
           onPressed: state.isLoading || _rating == 0 ? null : _submitReview,
         )

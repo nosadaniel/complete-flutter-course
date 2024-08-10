@@ -19,17 +19,17 @@ class MockCartService extends Mock implements CartService {}
 
 class MockOrdersRespository extends Mock implements FakeOrdersRepository {}
 
-class MockCheckoutService extends Mock implements FakeCheckoutService{}
+class MockCheckoutService extends Mock implements FakeCheckoutService {}
 
-class MockReviewsService extends Mock implements ReviewsService{}
+class MockReviewsService extends Mock implements ReviewsService {}
 
-class MockFakeReviewRepository extends Mock implements FakeReviewsRepository{}
+class MockFakeReviewRepository extends Mock implements FakeReviewsRepository {}
 
-class MockFakeOrderRepository extends Mock implements FakeOrdersRepository{}
+class MockFakeOrderRepository extends Mock implements FakeOrdersRepository {}
+
+class MockProductsRepository extends Mock implements FakeProductsRepository {}
 
 // Using mockito to keep track of when a provider notify its listeners
 class MockListener<T> extends Mock {
   void call(T? previous, T next);
 }
-
-class MockProductsRepository extends Mock implements FakeProductsRepository {}

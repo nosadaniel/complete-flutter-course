@@ -26,6 +26,12 @@ class ReviewsService {
     // * At this stage the review is already submitted
     // * and we don't need to await for the product rating to also be updated
     _updateProductRating(productId);
+
+    // final reviews =
+    //     await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
+    // final avgRating = _avgReviewScore(reviews);
+    // ref.read(productsRepositoryProvider).updateProductRating(
+    //     productId: productId, avgRating: avgRating, numRatings: reviews.length);
   }
 
   Future<void> _updateProductRating(ProductID productId) async {
@@ -33,8 +39,16 @@ class ReviewsService {
         await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
     final avgRating = _avgReviewScore(reviews);
 
-    await ref.read(productsRepositoryProvider).updateProductRating(
-        productId: productId, avgRating: avgRating, numRatings: reviews.length);
+    final product =
+        ref.read(productsRepositoryProvider).getProduct(productId: productId);
+    if (product == null) {
+      throw StateError('Product not found with id: $productId.'.hardcoded);
+    }
+    final update = product.copyWith(
+      avgRating: avgRating,
+      numRatings: reviews.length,
+    );
+    await ref.read(productsRepositoryProvider).setProduct(update);
   }
 
   double _avgReviewScore(List<Review> reviews) {

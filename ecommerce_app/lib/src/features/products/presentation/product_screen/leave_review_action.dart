@@ -4,6 +4,7 @@ import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/orders/application/user_orders_provider.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
@@ -20,8 +21,10 @@ class LeaveReviewAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // todo: read data from source
+    // only review if you have already make an order
     final orders = ref.watch(matchingUserOrdersProvider(productId)).value;
+    //update order text label
+    final review = ref.watch(userReviewStreamProvider(productId)).value;
     if (orders != null && orders.isNotEmpty) {
       final dateFormatted =
           ref.watch(dateformatterProvider).format(orders.first.orderDate);
@@ -39,7 +42,9 @@ class LeaveReviewAction extends ConsumerWidget {
             columnCrossAxisAlignment: CrossAxisAlignment.center,
             startContent: Text('Purchased on $dateFormatted'.hardcoded),
             endContent: CustomTextButton(
-              text: 'Leave a review'.hardcoded,
+              text: review != null
+                  ? 'Update review'.hardcoded
+                  : 'Leave a review'.hardcoded,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!

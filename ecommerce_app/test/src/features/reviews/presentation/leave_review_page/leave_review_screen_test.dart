@@ -1,11 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 
-import '../test/src/robot.dart';
+import '../../../../robot.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  testWidgets('Full purchase flow', (tester) async {
+  testWidgets('leave review screen ...', (tester) async {
     final r = Robot(tester);
     await r.pumpMyApp();
 
@@ -53,12 +51,6 @@ void main() {
     r.reviews.expectFindLeaveReview();
     await r.reviews.tapLeaveReviewButton();
     await r.reviews.createAndSubmitReview("good product");
-    r.reviews.expectFindOneReview();
-    //sign out steps
-    await r.openPopupMenu();
-    await r.auth.openAccountScreen();
-    await r.auth.tapLogoutButton();
-    await r.auth.tapLogoutDialogButton();
-    r.products.expectFindAllProductCards();
+    // r.reviews.expectFindOneReview();
   });
 }

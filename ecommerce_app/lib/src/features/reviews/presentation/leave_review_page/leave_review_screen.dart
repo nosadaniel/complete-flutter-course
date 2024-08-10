@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
+
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';

@@ -32,7 +32,7 @@ class Robot {
         checkout = CheckoutRobot(
           tester,
         ),
-        reviewsRobot = ReviewsRobot(tester),
+        reviews = ReviewsRobot(tester),
         goldenRobot = GoldenRobot(tester);
   final WidgetTester tester;
 
@@ -41,7 +41,7 @@ class Robot {
   final CartRobot cart;
   final CheckoutRobot checkout;
   final OrdersRobot orders;
-  final ReviewsRobot reviewsRobot;
+  final ReviewsRobot reviews;
   final GoldenRobot goldenRobot;
 
   Future<void> pumpMyApp() async {

@@ -9,6 +9,7 @@ void main() {
   final sizeVariant = ValueVariant(
       {const Size(300, 600), const Size(600, 800), const Size(1000, 1000)});
   testWidgets('Golden - products list', (WidgetTester tester) async {
+
     final r = Robot(tester);
     //get the current size
     final currentSize = sizeVariant.currentValue!;

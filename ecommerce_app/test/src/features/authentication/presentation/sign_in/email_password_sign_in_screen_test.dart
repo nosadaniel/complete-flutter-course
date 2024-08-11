@@ -1,5 +1,6 @@
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
+
 import '../../auth_robot.dart';
-import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -30,7 +31,7 @@ void main() {
         ),
       );
     });
-   
+
     testWidgets('''
       Given formType is signIn
       When enter valid email and password

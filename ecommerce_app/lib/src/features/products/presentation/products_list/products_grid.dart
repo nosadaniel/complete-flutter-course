@@ -4,6 +4,7 @@ import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/constants/async_value_widget.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_state_provider.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final products = ref.watch(productsListStreamProvider);
+    final products = ref.watch(productsSearchResultsFutureProvider);
     return AsyncValueWidget(
       value: products,
       data: (products) {

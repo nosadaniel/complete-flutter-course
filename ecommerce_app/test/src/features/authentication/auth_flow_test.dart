@@ -5,6 +5,9 @@ import '../../robot.dart';
 void main() {
   // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('Register and sign out flow', (tester) async {
+    // * Note: All tests are wrapped with `runAsync` to prevent this error:
+    // * A Timer is still pending even after the widget tree was disposed.
+
     final r = Robot(tester);
     await r.pumpMyApp();
     r.products.expectFindAllProductCards();

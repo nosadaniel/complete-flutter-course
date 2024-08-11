@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/product.dart';
@@ -18,7 +21,7 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProducts() async {
-    await delay(addDelay);
+    //await delay(addDelay);
     return Future.value(_products.value);
   }
 
@@ -67,6 +70,16 @@ class FakeProductsRepository {
     _products.value = products;
   }
 
+// return all products that marches the query or all if query is empty
+  Future<List<Product>> searchProduct(String query) async {
+    final products = await fetchProducts();
+    return products
+        .where((product) => product.title.toLowerCase().contains(
+              query.toLowerCase(),
+            ))
+        .toList();
+  }
+
   static Product? _getProduct(List<Product> products, String id) {
     try {
       return products.firstWhere((product) => product.id == id);
@@ -96,4 +109,16 @@ final productStreamProvider =
     StreamProvider.autoDispose.family<Product?, String>((ref, productId) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.watchProduct(productId: productId);
+});
+
+final productsListSearchFutureProvider = FutureProvider.autoDispose
+    .family<List<Product>, String>((ref, query) async {
+  // Todo: User CancelToke to cancel old network requests
+  ref.onDispose(() => debugPrint("disposed: $query"));
+  final link = ref.keepAlive();
+  // * keep previous search results in memory for 30 seconds
+  // Timer(const Duration(seconds: 30), link.close);
+  //add a small delya before making a request
+  await Future.delayed(const Duration(milliseconds: 500));
+  return ref.watch(productsRepositoryProvider).searchProduct(query);
 });

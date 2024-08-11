@@ -7,6 +7,7 @@ void main() {
     testWidgets('checkout when not previously signed in...', (tester) async {
       final r = Robot(tester);
       await r.pumpMyApp();
+      r.products.expectFindAllProductCards();
       // add a product and start checkout
       await r.products.selectProduct();
       await r.cart.addToCart();
@@ -15,11 +16,10 @@ void main() {
 
       //sign in from checkout screen
       r.auth.expectEmailAndPasswordFieldsFound();
+      //create account
       await r.auth.signInWithEmailAndPassword();
-      //synching local to remote cart
-      //check the we move to the payment
-      //Todo: this seems to fail because: local to remote cart movement.
-      //r.checkout.expectPaymentBarFound();
+      r.checkout.expectPaymentBarFound();
+    
     });
 
     testWidgets('checkout when previously signed in...', (tester) async {

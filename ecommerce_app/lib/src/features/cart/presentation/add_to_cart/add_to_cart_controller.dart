@@ -3,12 +3,15 @@
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddToCartController extends StateNotifier<AsyncValue<void>> {
-  AddToCartController(this.ref) : super(const AsyncData(null));
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-  final Ref ref;
+part 'add_to_cart_controller.g.dart';
+
+@riverpod
+class AddToCartController extends _$AddToCartController {
+  @override
+  FutureOr<void> build() {}
 
   Future<void> addItem(ProductID productId) async {
     state = const AsyncLoading();
@@ -27,21 +30,14 @@ class AddToCartController extends StateNotifier<AsyncValue<void>> {
   }
 }
 
-final addToCartControllerProvider =
-    StateNotifierProvider.autoDispose<AddToCartController, AsyncValue<void>>(
-        (ref) {
-  return AddToCartController(ref);
-});
-
-class ItemQuantityController extends StateNotifier<int> {
-  ItemQuantityController() : super(1);
+@riverpod
+class ItemQuantityController extends _$ItemQuantityController {
+  @override
+  int build() {
+    return 1;
+  }
 
   void updateQuantity(int quantity) {
     state = quantity;
   }
 }
-
-final itemQuantityControllerProvider =
-    StateNotifierProvider.autoDispose<ItemQuantityController, int>((ref) {
-  return ItemQuantityController();
-});

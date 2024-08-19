@@ -1,6 +1,5 @@
-import 'dart:math';
 
-import 'package:ecommerce_app/src/constants/test_products.dart';
+
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';

@@ -1,14 +1,18 @@
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../products/domain/product.dart';
+part 'shopping_cart_screen_controller.g.dart';
 
-class ShoppingCartScreenController extends StateNotifier<AsyncValue<void>> {
-  ShoppingCartScreenController(this.ref) : super(const AsyncData(null));
-
-  final Ref ref;
-
+@riverpod
+class ShoppingCartScreenController extends _$ShoppingCartScreenController {
+  @override
+  FutureOr<void> build() {
+    //nothing to do
+    // return ;
+  }
   Future<void> updateItemQuantity(ProductID productId, int quantity) async {
     state = const AsyncLoading();
     final updated = Item(productId: productId, quantity: quantity);
@@ -22,11 +26,3 @@ class ShoppingCartScreenController extends StateNotifier<AsyncValue<void>> {
         () => ref.read(cartServiceProvider).removeItemById(productId));
   }
 }
-
-final shoppingCartScreenControllerProvider =
-    StateNotifierProvider<ShoppingCartScreenController, AsyncValue<void>>(
-        (ref) {
-  return ShoppingCartScreenController(ref);
-});
-
-

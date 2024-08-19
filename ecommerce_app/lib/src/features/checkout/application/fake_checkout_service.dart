@@ -7,6 +7,8 @@ import 'package:ecommerce_app/src/features/products/data/fake_products_repositor
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/utils/current_date_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'fake_checkout_service.g.dart';
 
 /// A fake checkout service that doesn't process real payments
 class FakeCheckoutService {
@@ -23,7 +25,7 @@ class FakeCheckoutService {
   Future<void> placeOrder() async {
     final authRepository = ref.read(authRepositoryProvider);
     final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
-    final ordersRepository = ref.read(ordersRepostoryProvider);
+    final ordersRepository = ref.read(ordersRepositoryProvider);
     final currentDateBuilder = ref.read(currentDateProvider);
     // * Assertion operator is ok here since this method
     // is ok here since this method is only called from
@@ -67,6 +69,7 @@ class FakeCheckoutService {
   }
 }
 
-final checkoutServiceProvider = Provider<FakeCheckoutService>((ref) {
+@riverpod
+FakeCheckoutService checkoutService(CheckoutServiceRef ref) {
   return FakeCheckoutService(ref);
-});
+}

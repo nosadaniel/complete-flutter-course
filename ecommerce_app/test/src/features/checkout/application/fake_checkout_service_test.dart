@@ -44,7 +44,7 @@ void main() {
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
         remoteCartRepositoryProvider.overrideWithValue(remoteCartRepository),
-        ordersRepostoryProvider.overrideWithValue(ordersRespository),
+        ordersRepositoryProvider.overrideWithValue(ordersRespository),
         currentDateProvider.overrideWithValue(() => testDate),
       ],
     );

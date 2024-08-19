@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 /// Form type for email & password authentication
 enum EmailPasswordSignInFormType { signIn, register }

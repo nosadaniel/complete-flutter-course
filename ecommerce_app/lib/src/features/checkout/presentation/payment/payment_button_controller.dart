@@ -1,10 +1,22 @@
 import 'package:ecommerce_app/src/features/checkout/application/fake_checkout_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'payment_button_controller.g.dart';
 
-class PaymentButtonController extends StateNotifier<AsyncValue<void>> {
-  PaymentButtonController(this.ref) : super(const AsyncData(null));
+@riverpod
+class PaymentButtonController extends _$PaymentButtonController {
+  final initial = Object();
+  late var current = initial;
 
-  final Ref ref;
+  // An [Object] instance is equal to itself only.
+  bool get mounted {
+    return current == initial;
+  }
+
+  @override
+  FutureOr<void> build() {
+    ref.onDispose(() => current = Object());
+    //nothing to do
+  }
 
   Future<void> pay() async {
     state = const AsyncLoading();
@@ -17,8 +29,3 @@ class PaymentButtonController extends StateNotifier<AsyncValue<void>> {
     }
   }
 }
-
-final paymentButtonControllerProvider = StateNotifierProvider.autoDispose<
-    PaymentButtonController, AsyncValue<void>>((ref) {
-  return PaymentButtonController(ref);
-});

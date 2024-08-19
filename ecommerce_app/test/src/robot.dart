@@ -63,7 +63,7 @@ class Robot {
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         remoteCartRepositoryProvider.overrideWithValue(remoteCartRepository),
         reviewsRepositoryProvider.overrideWithValue(reviewRespository),
-        ordersRepostoryProvider.overrideWithValue(orderRespository)
+        ordersRepositoryProvider.overrideWithValue(orderRespository)
       ],
     );
     container.read(cartSyncServiceProvider);

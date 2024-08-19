@@ -46,16 +46,13 @@ void main() {
           (_) => Future.value(),
         );
         final container = makeProviderContainer(mockAuthRepository);
+        final listener = MockListener<AsyncValue<void>>();
+        container.listen(emailPasswordSignInControllerProvider, listener.call,
+            fireImmediately: true);
+
+        verify(() => listener(null, const AsyncData<void>(null)));
         final controller =
             container.read(emailPasswordSignInControllerProvider.notifier);
-        //expect later
-        expectLater(
-          controller.stream,
-          emitsInOrder([
-            const AsyncLoading<void>(),
-            const AsyncData<void>(null),
-          ]),
-        );
 
         final result = await controller.submit(
             email: testEmail, password: testPassword, formType: testFormType);

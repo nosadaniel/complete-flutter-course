@@ -2,7 +2,7 @@ import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/orders/application/user_orders_provider.dart';
-import 'package:ecommerce_app/src/features/orders/domain/order.dart';
+
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 

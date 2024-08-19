@@ -9,6 +9,8 @@ import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'cart_service.g.dart';
 
 class CartService {
   CartService(this.ref);
@@ -61,26 +63,30 @@ class CartService {
   }
 }
 
-final cartServiceProvider = Provider<CartService>((ref) {
+@riverpod
+CartService cartService(CartServiceRef ref) {
   return CartService(ref);
-});
+}
 
-final cartStreamProvider = StreamProvider<Cart>((ref) {
+@Riverpod(keepAlive: true)
+Stream<Cart> cartStream(CartStreamRef ref) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
     return ref.read(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {
     return ref.read(localCartRepositoryProvider).watchCart();
   }
-});
+}
 
-final cartItemsCountProvider = Provider<int>((ref) {
+@riverpod
+int cartItemsCount(CartItemsCountRef ref) {
   return ref
       .watch(cartStreamProvider)
       .maybeMap(data: (cart) => cart.value.items.length, orElse: () => 0);
-});
+}
 
-final cartTotalProvider = Provider.autoDispose<double>((ref) {
+@riverpod
+double cartTotal(CartTotalRef ref) {
   try {
     final itemsCart = ref.watch(cartStreamProvider).value ?? const Cart();
     final products = ref.watch(productsListStreamProvider).value ?? [];
@@ -96,10 +102,10 @@ final cartTotalProvider = Provider.autoDispose<double>((ref) {
   } catch (e) {
     rethrow;
   }
-});
+}
 
-final itemAvailableQuantityProvider =
-    Provider.autoDispose.family<int, Product>((ref, product) {
+@riverpod
+int itemAvailableQuantity(ItemAvailableQuantityRef ref, Product product) {
   final cart = ref.watch(cartStreamProvider).value;
   if (cart != null) {
     // get the current quantity for the given product in the cart
@@ -108,4 +114,4 @@ final itemAvailableQuantityProvider =
   } else {
     return product.availableQuantity;
   }
-});
+}

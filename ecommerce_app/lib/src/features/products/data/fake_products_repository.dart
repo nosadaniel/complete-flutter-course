@@ -5,9 +5,10 @@ import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay_call.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/product.dart';
+part 'fake_products_repository.g.dart';
 
 class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
@@ -89,36 +90,44 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider<FakeProductsRepository>(
-    (ref) => FakeProductsRepository(addDelay: false));
+@Riverpod(keepAlive: true)
+FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
+  return FakeProductsRepository(addDelay: false);
+}
 
-final productsListFutureProvider = FutureProvider<List<Product>>((ref) {
+@riverpod
+Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.fetchProducts();
-});
-final productsListStreamProvider = StreamProvider<List<Product>>((ref) {
+}
+
+@riverpod
+Stream<List<Product>> productsListStream(ProductsListStreamRef ref) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.watchProductList();
-});
-final productFutureProvider =
-    FutureProvider.autoDispose.family<Product?, String>((ref, productId) {
+}
+
+@riverpod
+FutureOr<Product?> productFuture(ProductFutureRef ref, String productId) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.getProduct(productId: productId);
-});
-final productStreamProvider =
-    StreamProvider.autoDispose.family<Product?, String>((ref, productId) {
+}
+
+@riverpod
+Stream<Product?> productStream(ProductStreamRef ref, String productId) {
   final repos = ref.watch(productsRepositoryProvider);
   return repos.watchProduct(productId: productId);
-});
+}
 
-final productsListSearchFutureProvider = FutureProvider.autoDispose
-    .family<List<Product>, String>((ref, query) async {
+@riverpod
+FutureOr<List<Product>> productsListSearchFuture(
+    ProductsListSearchFutureRef ref, String query) async {
   // Todo: User CancelToke to cancel old network requests
   ref.onDispose(() => debugPrint("disposed: $query"));
-  final link = ref.keepAlive();
+  //final link = ref.keepAlive();
   // * keep previous search results in memory for 30 seconds
   // Timer(const Duration(seconds: 30), link.close);
   //add a small delya before making a request
   await Future.delayed(const Duration(milliseconds: 500));
   return ref.watch(productsRepositoryProvider).searchProduct(query);
-});
+}

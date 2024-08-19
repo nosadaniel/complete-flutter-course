@@ -2,12 +2,24 @@ import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/utils/current_date_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
-  LeaveReviewController(this.ref) : super(const AsyncData(null));
-  final Ref ref;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'leave_review_controller.g.dart';
 
+@riverpod
+class LeaveReviewController extends _$LeaveReviewController {
+  final initial = Object();
+  late var current = initial;
+
+  bool get mounted {
+    return initial == current;
+  }
+
+  @override
+  FutureOr<void> build() {
+    //does nothing
+    //return ;
+  }
   Future<void> submitReview(
       {Review? previousReview,
       required ProductID productId,
@@ -41,9 +53,3 @@ class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
     }
   }
 }
-
-final leaveReviewControllerProvider =
-    StateNotifierProvider.autoDispose<LeaveReviewController, AsyncValue<void>>(
-        (ref) {
-  return LeaveReviewController(ref);
-});
